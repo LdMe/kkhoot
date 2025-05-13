@@ -1,0 +1,163 @@
+{
+	"info": {
+		"_postman_id": "6a2ec922-ec6d-4d8c-9180-f27cc07d3f43",
+		"name": "kkhoot",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26320013"
+	},
+	"item": [
+		{
+			"name": "get trivias",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"juan@ramon.com\",\n    \"password\":\"1234\"\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/trivias",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"trivias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create Trivia",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\":\"pruebas\",\n    \"questions\": [\n        {\n            \"question\": \"¿Qué hora es?\",\n            \"answers\":[\n                {\n                    \"text\":\"Las 2\"\n                },\n                {\n                    \"text\":\"hora de irse a casa\",\n                    \"isCorrect\":true\n                }\n            ]\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/trivias",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"trivias"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "prueba@mail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/register",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "email",
+							"value": "prueba@mail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODIzMjZlNmE2YmI2NjI3NTk1NjVkMjQiLCJpYXQiOjE3NDcxMzQ4NTR9.e9w-1nNXZdEF3g9txq29a2VkagOLUSQpTUyH8h1380s",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3003",
+			"type": "string"
+		}
+	]
+}
