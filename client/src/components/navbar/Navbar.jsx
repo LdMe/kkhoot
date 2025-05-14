@@ -10,22 +10,12 @@ function Navbar() {
                 <li className={"nav-item "} >
                     <NavLink to="/">Home</NavLink>
                 </li>
-                <li >
-                    <NavLink to="/stand">Stands</NavLink>
-                </li>
-                <li >
-                    <NavLink to="/product">Products</NavLink>
-                </li>
-                {userData && userData.role ==="seller" && (
-                    <li className={"nav-item "}>
-                    <button >Cosas de vendedores</button>
-                </li>
-                )}
+                
                 
                 {userData ? (
-                    <li className={"nav-item "}>
-                        <button onClick={onLogout}>Logout</button>
-                    </li>
+                   <li>
+                    <NavLink to="/trivias">Trivias</NavLink>
+                   </li>
 
                 ) : (
                     <li >

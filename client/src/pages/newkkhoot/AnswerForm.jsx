@@ -17,11 +17,11 @@ const AnswerForm =({answer,index,onAnswerChange,onAnswerDelete})=>{
     }
     return (
         <section className="answer__form">
-            <label htmlFor="answer">Answer</label>
+            <label htmlFor="answer">Respuesta {index+1}</label>
             <input type="text" name="text" id="text" onChange={handleAnswerChange} value={answer.text}/>
-            <label htmlFor="isCorrect">Correct</label>
+            <label htmlFor="isCorrect">Es correcta</label>
             <input type="checkbox" name="isCorrect" id="isCorrect" onChange={handleIsCorrectChange}  checked={answer.isCorrect}/>
-            <button type="button" onClick={() => onAnswerDelete(index)}>Delete</button>
+            <button type="button" onClick={() => onAnswerDelete(index)}>Borrar</button>
         </section >
     )
 }

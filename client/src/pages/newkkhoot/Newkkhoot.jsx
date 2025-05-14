@@ -1,6 +1,8 @@
 import {useState} from "react";
 import QuestionForm from "./QuestionForm";
 import {createTrivia} from "../../utils/api/trivia";
+
+import "./Newkkhoot.css"
 const Newkkhoot = () => {
     const  [title,setTitle] = useState("")
     const [questions,setQuestions] = useState([]);
@@ -24,6 +26,10 @@ const Newkkhoot = () => {
         setQuestions(newQuestions);
     }
     const handleSaveTrivia = async() => {
+        if(!validateQuestions()){
+            console.log("not valid");
+            return;
+        }
         const newTrivia = {
             title,
             questions
@@ -37,15 +43,32 @@ const Newkkhoot = () => {
         const newTitle = e.target.value;
         setTitle(newTitle);
     }
+    /**
+     * Función que valida todas las preguntas para que tengan al menos 2 respuestas posibles, entre ellas al menos 1 correcta y que cada pregunta tenga su pregunta
+     */
+    const validateQuestion = (question) =>{
+        if(!question.question){
+            return false;
+        }
+        if(question.answers.length < 2){
+            return false;
+        }
+        const correctAnswers = question.answers.filter(answer => answer.isCorrect);
+        if(correctAnswers.length < 1){
+            return false;
+        }
+        return true;
+    }
+    const validateQuestions=() => {
+        return questions.every(validateQuestion);
+    }
 
     return (
         <section className="trivia__new">
-            <h1>New Trivia</h1>
-            <label htmlFor="title">Title</label>
-            <input type="text" name="title" id="title" value={title} onChange={handleTitleChange}  />
-            <button onClick={handleSaveTrivia}>Save</button>
-            <h2>{questions.length} Question{questions.length === 1 ? "" : "s"}</h2>
-            <button onClick={createNewQuestion}>Add Question</button>
+            <input className="trivia__title" type="text" name="title" id="title" value={title} onChange={handleTitleChange}  />
+            <button onClick={handleSaveTrivia}>Guardar</button>
+            <h2>{questions.length} Pregunta{questions.length === 1 ? "" : "s"}</h2>
+            <button onClick={createNewQuestion}>Nueva pregunta</button>
             {questions.map((question,index) => (
                 <QuestionForm 
                 key={index} 

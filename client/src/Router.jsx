@@ -7,6 +7,7 @@ import Newkkhoot from "./pages/newkkhoot/Newkkhoot";
 import Trivia from "./pages/trivia/Trivia";
 import Lobby from "./pages/gameSession/lobby/Lobby";
 import Join from "./pages/gameSession/join/Join";
+import Home from "./pages/home/Home";
 import { getGameSessionById } from "./utils/api/gameSession";
 const router = createBrowserRouter([
     {
@@ -16,7 +17,19 @@ const router = createBrowserRouter([
             {
 
                 path: "/",
-                element: <Auth />
+                element: <Home />
+
+            },
+            {
+
+                path: "/login",
+                element: <Auth  isRegister={false}/>
+
+            },
+            {
+
+                path: "/register",
+                element: <Auth isRegister={true} />
 
             },
             {

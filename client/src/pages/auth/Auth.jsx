@@ -1,14 +1,13 @@
 import { useState,useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
-function Auth () {
-    const [isRegister,setIsRegister] = useState(false);
+function Auth ({isRegister=false}) {
     const [error,setError] = useState(null);
     const [userData,setUserData] = useState({
         email: "",
         password:""
     })
-    const {onLogin} = useContext(AuthContext);
+    const {onLogin,onRegister} = useContext(AuthContext);
     
     const handleUserPassword = (e) =>{
         const newPassword = e.target.value;
@@ -26,19 +25,24 @@ function Auth () {
         e.preventDefault();
         // sin formulario controlado, sacariamos los datos de los inputs
         console.log("login",userData);
+        if(isRegister){
+            const result = await onRegister(userData.email,userData.password);
+            setError(result);
+            return;
+        }
         const result = await onLogin(userData.email,userData.password);
         setError(result);
     }
     return (
         <section className="auth-section">
-            <h1>Login</h1>
+            <h1>{isRegister ? "Regístrate" : "Inicia sesión"}</h1>
             <p className="error">{error}</p>
             <form className="login-form" onSubmit={handleSubmit}>
                 <label htmlFor="email">Email</label>
                 <input type="email" name="email" id= "email" value={userData.email} onChange={handleUserEmail} />
                 <label htmlFor="password">Contraseña</label>
                 <input type="password" name="password" id="password" value={userData.password} onChange={handleUserPassword}/>
-                <button>Acceder</button>
+                <button>{isRegister ? "Register" : "Acceder"}</button>
             </form>
         </section>
     )

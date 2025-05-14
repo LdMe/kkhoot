@@ -21,7 +21,12 @@ function saveToken(token) {
 }
 
 function getToken(){
-    return getFromLocalStorage("token",null);
+    try{
+
+        return getFromLocalStorage("token",null);
+    }catch(e){
+        return null;
+    }
 }
 
 function removeToken(){

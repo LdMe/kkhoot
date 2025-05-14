@@ -27,11 +27,11 @@ const QuestionForm = ({question,index,onQuestionChange, onQuestionDelete}) =>{
 
     return (
         <section className="question__form" >
-            <label htmlFor="question">Question</label>
+            <label htmlFor="question">Pregunta {index+1}</label>
             <input type="text" name="question" id="question" value={question.question} onChange={handleQuestionChange}/>
-            <button type="button" onClick={() => onQuestionDelete(index)}>Delete</button>
-            <h2>Answers</h2>
-            <button onClick={createNewAnswer}>Add Answer</button>
+            <button type="button" onClick={() => onQuestionDelete(index)}>Borrar</button>
+            <h2>Respuestas</h2>
+            <button onClick={createNewAnswer}>Añadir respuesta</button>
             {question.answers.map((answer,index) => (
                 <AnswerForm 
                 key={index} 
