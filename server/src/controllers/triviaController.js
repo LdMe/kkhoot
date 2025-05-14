@@ -17,7 +17,8 @@ const getTriviaById = async (req, res) => {
 const createTrivia = async (req, res) => {
     const data = req.body;
     const owner = req.user._id;
-    console.log("owner",owner);
+
+    console.log("new trivia",data);
     data.owner = owner;
     const trivia = new triviaModel(data);
     await trivia.save();

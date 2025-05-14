@@ -6,6 +6,10 @@ const gameSessionSchema = new mongoose.Schema({
         ref: "Trivia",
         required: true
     },
+    code : {
+        type: String,
+        required: true
+    },
     state: {
         type: String,
         required: true,

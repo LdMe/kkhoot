@@ -32,4 +32,14 @@ const register = async(req,res)=>{
     res.json({message:"User created"});
 }
 
-export default {login,register};
+const getUserInfo = async(req,res)=>{
+    // get user without password
+    const user = await userModel.findById(req.user._id).select("-password");
+    res.json(user);
+}
+
+export default {
+    login,
+    register,
+    getUserInfo
+};

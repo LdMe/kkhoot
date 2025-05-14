@@ -1,24 +1,29 @@
+import {customAlphabet} from "nanoid";
 import gameSessionModel from "../models/gameSession.js";
 import playerModel from "../models/player.js";
 import triviaModel from "../models/trivia.js";
+
 
 const getGameSession = async (req,res)=>{
     const id = req.params.id;
     const gameSession = await gameSessionModel.findById(id);
     res.json(gameSession);
 }
+const getRandomCode = customAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 6);
 const createGameSession = async (req,res)=>{
     const triviaId = req.params.id;
-    const gameSession = new gameSessionModel({triviaId});
+    // primero borramos las sesiones anteriores para el mismo trivia (asi evitamos duplicados)
+    await gameSessionModel.deleteMany({triviaId});
+    const gameSession = new gameSessionModel({triviaId,code:getRandomCode()});
     await gameSession.save();
     res.json(gameSession);
 }
 
 const joinPlayer = async(req,res)=>{
     const username = req.body.username;
-    const sessionId= req.params.id;
-    const gameSession = await gameSessionModel.findById(sessionId).populate("players");
-    console.log("gameSession",gameSession.players)
+    const sessionCode= req.params.id;
+    const gameSession = await gameSessionModel.findOne({code:sessionCode}).populate("players");
+    console.log("gameSession",sessionCode,gameSession);
     if(gameSession.players.some(player => player.name === username)){
         return res.status(400).json({error:"username already exists"});
     }

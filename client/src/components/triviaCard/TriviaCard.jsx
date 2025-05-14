@@ -1,22 +1,12 @@
-
+import {Link} from "react-router-dom";
 
 const TriviaCard = ({trivia})=>{
 
     return (
         <article className="trivia__card">
             <h2>{trivia.title}</h2>
-            <section className="trivia__questions">
-                {trivia.questions.map((question)=>(
-                    <article className="trivia__question">
-                        <h3>{question.question}</h3>
-                        <ul className="trivia__answers">
-                            {question.answers.map((answer)=>(
-                                <li>{answer.text}</li>
-                            ))}
-                        </ul>
-                    </article>
-                ))}
-            </section>
+            <p>{trivia.questions.length} question{trivia.questions.length === 1 ? "" : "s"}</p>
+            <Link to={`/trivias/${trivia._id}`}>Play</Link>
         </article>
     )
 }

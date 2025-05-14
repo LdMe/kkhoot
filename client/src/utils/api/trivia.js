@@ -9,7 +9,26 @@ async function getMyTrivias(){
     return trivias;
 }
 
+async function getTriviaById(id){
+    const trivia = await fetchData(`/trivia/${id}`);
+    return trivia;
+}
+
+async function createTrivia(data){
+    const trivia = await fetchData("/trivia","POST",data);
+    return trivia;
+}
+
+async function startTrivia(id){
+    const trivia = await fetchData(`/trivia/${id}/start`,"POST");
+    console.log("start trivia",trivia);
+    return trivia;
+}
+
 
 export {
-    getMyTrivias
+    getMyTrivias,
+    createTrivia,
+    getTriviaById,
+    startTrivia
 }
