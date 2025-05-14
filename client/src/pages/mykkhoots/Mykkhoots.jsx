@@ -6,7 +6,7 @@ const Mykkhoots = () =>{
     console.log("trivias",trivias);
     return (
         <section className="trivias">
-            <h1>My Trivias</h1>
+            <h1>Mis Trivias</h1>
             {trivias.map((trivia) => (
                 <TriviaCard key={trivia._id} trivia={trivia} />
             ))}

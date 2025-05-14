@@ -8,5 +8,6 @@ router.post("/:id/start",gameSessionController.startGameSession);
 router.post("/:id/join",gameSessionController.joinPlayer);
 router.get("/:id/question",gameSessionController.getQuestion);
 router.post("/:id/question",gameSessionController.nextQuestion);
+router.post("/:id/answer",gameSessionController.answerQuestion);
 
 export default router

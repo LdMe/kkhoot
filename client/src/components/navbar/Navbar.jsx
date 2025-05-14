@@ -8,18 +8,18 @@ function Navbar() {
         <nav>
             <ul className="nav-list">
                 <li className={"nav-item "} >
-                    <NavLink to="/">Home</NavLink>
+                    <NavLink to="/">Kkhoot</NavLink>
                 </li>
                 
                 
                 {userData ? (
                    <li>
-                    <NavLink to="/trivias">Trivias</NavLink>
+                    <NavLink to="/trivias">Mis Trivias</NavLink>
                    </li>
 
                 ) : (
                     <li >
-                        <NavLink to="/login">Login</NavLink>
+                        <NavLink to="/login">Iniciar Sesión</NavLink>
                     </li>
 
                 )}

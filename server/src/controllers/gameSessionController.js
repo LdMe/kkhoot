@@ -6,7 +6,7 @@ import triviaModel from "../models/trivia.js";
 
 const getGameSession = async (req,res)=>{
     const id = req.params.id;
-    const gameSession = await gameSessionModel.findById(id);
+    const gameSession = await gameSessionModel.findById(id).populate("players","name").populate("triviaId");
     res.json(gameSession);
 }
 const getRandomCode = customAlphabet("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 6);
@@ -59,13 +59,30 @@ const getQuestion = async (req,res)=>{
     const question = trivia.questions[questionIndex];
     res.json(question);
 }
+const answerQuestion = async (req,res)=>{
+    const {username,answerId,questionId} = req.body;
+    const gameSessionId = req.params.id;
+    const gameSession = await gameSessionModel.findById(gameSessionId).populate("players");
+    console.log("gameSession",req.body);
+    const player = gameSession.players.find(player => player.name === username);
+    if(!player){
+        return res.status(400).json({error:"player not found"});
+    }
+    if(player.answers.some(answer => answer.questionId.toString() === questionId.toString())){
+        return res.status(400).json({error:"question already answered"});
+    }
+    player.answers.push({questionId,answerId});
+    await player.save();
+    res.json(player);
 
+}
 export default {
     getGameSession,
     createGameSession,
     joinPlayer,
     startGameSession,
     nextQuestion,
-    getQuestion
+    getQuestion,
+    answerQuestion
 
 }

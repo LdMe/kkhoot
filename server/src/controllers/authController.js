@@ -35,7 +35,7 @@ const register = async(req,res)=>{
 const getUserInfo = async(req,res)=>{
     // get user without password
     const user = await userModel.findById(req.user._id).select("-password");
-    res.json(user);
+    res.json({user});
 }
 
 export default {

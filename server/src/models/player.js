@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
 const answerSchema = new mongoose.Schema({
-    questionIndex: {
-        type: Number,
+    questionId: {
+        type: mongoose.Schema.Types.ObjectId,
         required: true
     },
-    answerIndex: {
-        type: Number,
+    answerId: {
+        type: mongoose.Schema.Types.ObjectId,
         required:true
     }
 });

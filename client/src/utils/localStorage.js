@@ -3,9 +3,9 @@ function saveToLocalStorage(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
 }
 
-function getFromLocalStorage(key, defaultValue = null) {
+function getFromLocalStorage(key, defaultValue = null,parse=true) {
     const result = localStorage.getItem(key);
-    if (result) {
+    if (result && parse) {
         return JSON.parse(result);
     } else {
         return defaultValue;
@@ -28,6 +28,16 @@ function getToken(){
         return null;
     }
 }
+function saveUsername(username) {
+    saveToLocalStorage("username", username);
+}
+
+function getUsername(){
+    return getFromLocalStorage("username",null,false);
+}
+function removeUsername(){
+    removeFromLocalStorage("username");
+}
 
 function removeToken(){
     removeFromLocalStorage("token");
@@ -36,5 +46,8 @@ function removeToken(){
 export {
     saveToken,
     getToken,
-    removeToken
+    removeToken,
+    saveUsername,
+    getUsername,
+    removeUsername
 }
