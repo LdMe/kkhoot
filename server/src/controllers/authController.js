@@ -16,7 +16,8 @@ const login = async(req,res)=>{
         return res.status(400).json({error:"Invalid credentials"});
     }
     const token = jwt.sign({_id:user._id},process.env.JWT_SECRET);
-    res.json({token});
+    const userData = {email}
+    res.json({token,user:userData});
 }
 
 const register = async(req,res)=>{
