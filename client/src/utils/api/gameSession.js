@@ -18,6 +18,10 @@ async function getQuestion(id){
     const question = await fetchData(`/session/${id}/question`);
     return question;
 }
+async function nextQuestion(id){
+    const question = await fetchData(`/session/${id}/question`,"POST");
+    return question;
+}
 async function answerQuestion(sessionId,username,answerId,questionId){
     const gameSession = await fetchData(`/session/${sessionId}/answer`,"POST",{username,answerId,questionId});
     return gameSession;
@@ -27,5 +31,6 @@ export {
     startGameSession,
     joinGameSession,
     getQuestion,
-    answerQuestion
+    answerQuestion,
+    nextQuestion
 }

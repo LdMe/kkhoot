@@ -45,10 +45,15 @@ const startGameSession = async (req,res)=> {
 
 const nextQuestion = async (req,res) => {
     const sessionId = req.params.id;
-    const gameSession = await gameSessionModel.findById(sessionId);
+    const gameSession = await gameSessionModel.findById(sessionId).populate("triviaId");
     gameSession.questionIndex++;
+    if(gameSession.questionIndex >= gameSession.triviaId.questions.length){
+        gameSession.state = "finished";
+    }
     await gameSession.save();
-    res.json(gameSession);
+    const trivia = gameSession.triviaId;
+    const question = trivia.questions[questionIndex];
+    res.json(question);
 }
 
 const getQuestion = async (req,res)=>{
@@ -56,7 +61,9 @@ const getQuestion = async (req,res)=>{
     const gameSession = await gameSessionModel.findById(sessionId);
     const questionIndex = gameSession.questionIndex;
     const trivia = await triviaModel.findById(gameSession.triviaId);
+    console.log("trivia",trivia);
     const question = trivia.questions[questionIndex];
+    console.log("question",question);
     res.json(question);
 }
 const answerQuestion = async (req,res)=>{
