@@ -57,15 +57,25 @@ const Newkkhoot = () => {
         if(correctAnswers.length < 1){
             return false;
         }
+        const emptyAnswer = question.answers.find(answer => !answer.text);
+        if(emptyAnswer){
+            return false;
+        } 
         return true;
     }
     const validateQuestions=() => {
+        if(!title){
+            return false;
+        }
+        if(questions.length < 1){
+            return false;
+        }
         return questions.every(validateQuestion);
     }
 
     return (
         <section className="trivia__new">
-            <input className="trivia__title" type="text" name="title" id="title" value={title} onChange={handleTitleChange}  />
+            <input className="trivia__title" type="text" name="title" id="title" value={title} onChange={handleTitleChange}  placeholder="Título" />
             <button onClick={handleSaveTrivia}>Guardar</button>
             <h2>{questions.length} Pregunta{questions.length === 1 ? "" : "s"}</h2>
             <button onClick={createNewQuestion}>Nueva pregunta</button>

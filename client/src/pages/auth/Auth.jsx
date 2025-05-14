@@ -1,4 +1,5 @@
 import { useState,useContext } from "react";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 function Auth ({isRegister=false}) {
@@ -42,8 +43,9 @@ function Auth ({isRegister=false}) {
                 <input type="email" name="email" id= "email" value={userData.email} onChange={handleUserEmail} />
                 <label htmlFor="password">Contraseña</label>
                 <input type="password" name="password" id="password" value={userData.password} onChange={handleUserPassword}/>
-                <button>{isRegister ? "Register" : "Acceder"}</button>
+                <button>{isRegister ? "Registrarse" : "Acceder"}</button>
             </form>
+            <p>{isRegister ? "Ya tienes cuenta? " : "No tienes cuenta? "}<Link to={isRegister ? "/login" : "/register"}>{isRegister ? "Inicia sesión" : "Regístrate"}</Link></p>
         </section>
     )
 }

@@ -1,6 +1,6 @@
 import { getToken } from "../localStorage";
 //const BASE_URL = import.meta.env.VITE_BACKEND_URL+"/api";
-const BASE_URL = "http://localhost:3003";
+const BASE_URL = "http://localhost:3012";
 console.log("backend url",BASE_URL)
 async function fetchData(route,method="GET",data=null){
     const url = BASE_URL + route;

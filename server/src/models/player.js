@@ -8,6 +8,18 @@ const answerSchema = new mongoose.Schema({
     answerId: {
         type: mongoose.Schema.Types.ObjectId,
         required:true
+    },
+    isCorrect: {
+        type: Boolean,
+        required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    delay: {
+        type: Number,
+        default: 0
     }
 });
 

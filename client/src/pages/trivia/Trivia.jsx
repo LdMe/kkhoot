@@ -13,7 +13,7 @@ const Trivia = () => {
     return (
         <section className="trivia">
             <h1>{trivia.title}</h1>
-            <button onClick={handleStartTrivia}>Start</button>
+            <button onClick={handleStartTrivia}>Nueva Partida</button>
             {trivia.questions.map((question) => (
                 <div key={question._id}>
                     <h2>{question.question}</h2>

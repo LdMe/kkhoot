@@ -1,6 +1,9 @@
 
-function saveToLocalStorage(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
+function saveToLocalStorage(key, value,parse=true) {
+    if(parse){
+        value = JSON.stringify(value);
+    }
+    localStorage.setItem(key, value);
 }
 
 function getFromLocalStorage(key, defaultValue = null,parse=true) {
@@ -29,7 +32,7 @@ function getToken(){
     }
 }
 function saveUsername(username) {
-    saveToLocalStorage("username", username);
+    saveToLocalStorage("username", username,false);
 }
 
 function getUsername(){

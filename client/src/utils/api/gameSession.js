@@ -26,11 +26,22 @@ async function answerQuestion(sessionId,username,answerId,questionId){
     const gameSession = await fetchData(`/session/${sessionId}/answer`,"POST",{username,answerId,questionId});
     return gameSession;
 }
+
+async function getQuestionStats(sessionId){
+    const stats = await fetchData(`/session/${sessionId}/stats/question`);
+    return stats;
+}
+async function getSessionStats(sessionId){
+    const stats = await fetchData(`/session/${sessionId}/stats`);
+    return stats;
+}
 export {
     getGameSessionById,
     startGameSession,
     joinGameSession,
     getQuestion,
     answerQuestion,
-    nextQuestion
+    nextQuestion,
+    getQuestionStats,
+    getSessionStats
 }
