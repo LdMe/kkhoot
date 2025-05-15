@@ -41,9 +41,22 @@ const startGameSession = async (req, res) => {
     gameSession.state = "started";
     gameSession.updatedAt = new Date();
     await gameSession.save();
+    const io = req.io;
+    io.emit("gameSessionStarted", gameSession); // TODO avisar solo a los de la partida
+    
+    startTimer(io);
     res.json(gameSession);
 }
-
+const startTimer = (io,timer = 30)=>{
+    const interval = setInterval(() => {
+        timer--;
+        console.log("timer", timer);
+        if(timer === 0){
+            clearInterval(interval);
+        }
+        io.emit("timer", timer);
+    }, 1000);
+}
 const nextQuestion = async (req, res) => {
     const sessionId = req.params.id;
     const gameSession = await gameSessionModel.findById(sessionId).populate("triviaId");
@@ -51,12 +64,17 @@ const nextQuestion = async (req, res) => {
     if (gameSession.questionIndex >= gameSession.triviaId.questions.length) {
         gameSession.state = "finished";
         gameSession.questionIndex = 0;
+        const io = req.io;
+        io.emit("gameSessionFinished", gameSession);
         res.json(null);
     }
     gameSession.updatedAt = new Date();
     await gameSession.save();
     const trivia = gameSession.triviaId;
     const question = trivia.questions[gameSession.questionIndex];
+    const io = req.io;
+    io.emit("nextQuestion", question);
+    startTimer(io,question.timer || 30);
     res.json(question);
 }
 
@@ -90,7 +108,8 @@ const getQuestionPlayersStats = async (req, res) => {
     const incorrect = playerStats.filter(player => !player.correct).length;
     const total = playerStats.length;
     const correctPercentage = (correct / total) * 100;
-
+    const io  = req.io;
+    io.emit("questionStats", {stats:playerStats,correct,incorrect,total,correctPercentage});
     res.json({stats:playerStats,correct,incorrect,total,correctPercentage});
 }
 
@@ -140,6 +159,16 @@ const answerQuestion = async (req, res) => {
     res.json(player);
 
 }
+
+const saveSocketIdToPlayer = async(username,sessionId,socketId) => {
+    const player = await playerModel.findOne({name:username,gameSessionId:sessionId});
+    if(!player){
+        return;
+    }
+    player.socketId = socketId;
+    await player.save();
+}
+
 export default {
     getGameSession,
     createGameSession,
@@ -149,6 +178,7 @@ export default {
     getQuestion,
     answerQuestion,
     getQuestionPlayersStats,
-    getSessionPlayerStats
+    getSessionPlayerStats,
+    saveSocketIdToPlayer
 
 }

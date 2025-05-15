@@ -34,6 +34,9 @@ const playerSchema = new mongoose.Schema({
         ref: "GameSession",
         required: true
     },
+    socketId: {
+        type: String
+    },
     answers: [answerSchema]
 });
 

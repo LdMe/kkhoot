@@ -1,7 +1,7 @@
 import { answerQuestion } from "../../../utils/api/gameSession";
 
 
-const PlayerQuestion = ({question,gameSessionId}) => {
+const PlayerQuestion = ({showingStats,question,gameSessionId}) => {
 
     const handleAnswer = async (answerId) => {
         const username = localStorage.getItem("username");
@@ -13,7 +13,13 @@ const PlayerQuestion = ({question,gameSessionId}) => {
             <h2>{question.question}</h2>
             <ul>
                 {question.answers.map((answer) => (
-                    <li key={answer._id}><button className="answer__button" onClick={() => handleAnswer(answer._id)}>{answer.text} </button> </li>
+                    <li key={answer._id}>
+                        {showingStats ? (
+                            <span>{answer.text} {answer.isCorrect ? "✅" : "❌"}</span>
+                        ):(
+                            <button className="answer__button" onClick={() => handleAnswer(answer._id)}>{answer.text} </button>
+                        )}
+                         </li>
                 ))}
             </ul>
         </section>
