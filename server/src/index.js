@@ -39,6 +39,9 @@ app.use((req,res,next)=>{
 })
 io.on("connection", (socket) => {
     console.log("conexion",socket.id)
+    socket.on("disconnect",() => {
+        // TODO borra id de socket
+    })
     socket.on("join",(data)=>{
         console.log("join",data,socket.id);
         gameSessionController.saveSocketIdToPlayer(data.username,data.sessionId,socket.id);
