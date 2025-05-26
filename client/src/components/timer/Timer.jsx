@@ -1,10 +1,13 @@
 import {useState,useEffect} from "react";
 
-const Timer = ({socket}) =>{
+const Timer = ({socket,onEnd=null}) =>{
     const [timeLeft, setTimeLeft] = useState(30);
     useEffect(() => {
-        socket.on("timer", (timeLeft) => {
-            setTimeLeft(timeLeft);
+        socket.on("timer", (newTimeLeft) => {
+            setTimeLeft(newTimeLeft);
+            if(newTimeLeft === 0 && onEnd){
+                onEnd();
+            }
         })
         return () => {
             socket.off("timer");

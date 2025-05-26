@@ -5,6 +5,14 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+/**
+ * Login endpoint
+ * @function
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {Promise<void>}
+ * @throws {Error} 400 - Invalid credentials
+ */
 const login = async(req,res)=>{
     const {email,password} = req.body;
     const user = await userModel.findOne({email});
@@ -20,6 +28,15 @@ const login = async(req,res)=>{
     res.json({token,user:userData});
 }
 
+
+/**
+ * Register endpoint
+ * @function
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {Promise<void>}
+ * @throws {Error} 400 - Email already in use
+ */
 const register = async(req,res)=>{
     const {email,password} = req.body;
     const user = await userModel.findOne({email});
@@ -31,6 +48,14 @@ const register = async(req,res)=>{
     await newUser.save();
     res.json({message:"User created"});
 }
+
+/**
+ * Retrieves the user information excluding the password.
+ * @function
+ * @param {Object} req - Express request object containing user ID in req.user._id.
+ * @param {Object} res - Express response object.
+ * @returns {Promise<void>} - Responds with the user information in JSON format.
+ */
 
 const getUserInfo = async(req,res)=>{
     // get user without password

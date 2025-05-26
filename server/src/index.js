@@ -7,6 +7,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { connectDB } from "./config/mongoose.js";
 import gameSessionController from "./controllers/gameSessionController.js";
+import { swaggerUi, swaggerSpec } from "./swagger.js";
 
 dotenv.config();
 connectDB();
@@ -24,6 +25,7 @@ app.use(cookieParser());
 app.use(express.json()); // para API (formato json)
 app.use(express.urlencoded({extended:true})); // para Vistas (formato formulario)
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec)); // Documentación con Swagger
 
 
 

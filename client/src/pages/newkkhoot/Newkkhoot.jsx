@@ -1,4 +1,5 @@
 import {useState} from "react";
+import { useNavigate } from "react-router-dom";
 import QuestionForm from "./QuestionForm";
 import {createTrivia} from "../../utils/api/trivia";
 
@@ -6,7 +7,7 @@ import "./Newkkhoot.css"
 const Newkkhoot = () => {
     const  [title,setTitle] = useState("")
     const [questions,setQuestions] = useState([]);
-
+    const navigate = useNavigate();
     const createNewQuestion = () =>{
         const newQuestion  = {
             question: "",
@@ -36,7 +37,7 @@ const Newkkhoot = () => {
         }
         console.log(newTrivia);
         const result = await createTrivia(newTrivia);
-        console.log(result);
+        navigate(`/trivias/${result._id}`);
 
     }
     const handleTitleChange = (e) => {

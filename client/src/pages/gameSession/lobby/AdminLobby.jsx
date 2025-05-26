@@ -2,11 +2,14 @@ import { useLoaderData } from "react-router-dom"
 import { useState, useEffect } from "react";
 import { startGameSession, nextQuestion, getQuestion, getGameSessionById, getQuestionStats, getSessionStats } from "../../../utils/api/gameSession"
 import AdminQuestion from "../question/AdminQuestion";
+import Timer from "../../../components/timer/Timer";
+import { io } from "socket.io-client";
 import "./Lobby.css"
 const Lobby = () => {
     const [question, setQuestion] = useState(null);
     const [gameSession, setGameSession] = useState(useLoaderData());
     const [stats, setStats] = useState(null);
+    const [socket, setSocket] = useState(null);
     useEffect(() => {
         // TODO: aqui vamos a conectar por socket y escuchar los eventos
         if (gameSession.state === "started") {
@@ -15,6 +18,9 @@ const Lobby = () => {
         if (gameSession.state === "finished") {
             handleGetStats();
         }
+        const newSocket = io(import.meta.env.VITE_BACKEND_URL);
+
+        setSocket(newSocket);
     }, [gameSession])
 
     const handleGetStats = async () => {
@@ -102,7 +108,13 @@ const Lobby = () => {
             )}
             {gameSession.state === "started" && (
                 <>
-                    {question && <AdminQuestion question={question} gameSessionId={gameSession._id} />}
+                    {question && (
+                        <>
+                            <Timer socket={socket} gameSessionId={gameSession._id} onEnd={handleNextQuestion} />
+                        <AdminQuestion question={question} gameSessionId={gameSession._id} />
+                        </>
+
+                        )}
                     <button onClick={handleNextQuestion}>Siguiente</button>
                 </>
 

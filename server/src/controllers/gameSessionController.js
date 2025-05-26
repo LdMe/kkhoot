@@ -35,6 +35,14 @@ const joinPlayer = async (req, res) => {
 
 }
 
+/**
+ * Starts a game session by updating its state to "started" and broadcasting the event
+ * to all connected clients via Socket.io. Also initiates a countdown timer for the session.
+ * 
+ * @param {Object} req - HTTP request object containing the session ID in req.params.id.
+ * @param {Object} res - HTTP response object used to send back the updated game session.
+ */
+
 const startGameSession = async (req, res) => {
     const sessionId = req.params.id;
     const gameSession = await gameSessionModel.findById(sessionId);
@@ -47,6 +55,12 @@ const startGameSession = async (req, res) => {
     startTimer(io);
     res.json(gameSession);
 }
+/**
+ * Inicia un temporizador que emite el evento "timer" a traves de Socket.io cada segundo, con el valor actual del temporizador.
+ * El temporizador se detiene cuando llega a 0.
+ * @param {SocketIO.Server} io - Instancia de Socket.io
+ * @param {number} [timer=30] - Valor inicial del temporizador
+ */
 const startTimer = (io,timer = 30)=>{
     const interval = setInterval(() => {
         timer--;
@@ -57,6 +71,13 @@ const startTimer = (io,timer = 30)=>{
         io.emit("timer", timer);
     }, 1000);
 }
+/**
+ * Advances the current question of a game session to the next one.
+ * @param {Object} req - HTTP request object.
+ * @param {string} req.params.id - The ID of the game session.
+ * @param {Object} res - HTTP response object.
+ * @returns {Object} The next question of the game session.
+ */
 const nextQuestion = async (req, res) => {
     const sessionId = req.params.id;
     const gameSession = await gameSessionModel.findById(sessionId).populate("triviaId");
@@ -78,6 +99,13 @@ const nextQuestion = async (req, res) => {
     res.json(question);
 }
 
+/**
+ * Gets the current question of a game session.
+ * @param {Object} req - HTTP request object.
+ * @param {string} req.params.id - The ID of the game session.
+ * @param {Object} res - HTTP response object.
+ * @returns {Object} The current question of the game session.
+ */
 const getQuestion = async (req, res) => {
     const sessionId = req.params.id;
     const gameSession = await gameSessionModel.findById(sessionId);
@@ -88,6 +116,13 @@ const getQuestion = async (req, res) => {
     console.log("question", question);
     res.json(question);
 }
+    /**
+     * Devuelve las estad sticas de los jugadores para una pregunta en particular.
+     * @param {Object} req - El objeto de solicitud de Express.
+     * @param {Object} res - El objeto de respuesta de Express.
+     * @returns {Promise<void>}
+     */
+    
 const getQuestionPlayersStats = async (req, res) => {
     const sessionId = req.params.id;
     const gameSession = await gameSessionModel.findById(sessionId).populate("players").populate("triviaId");
@@ -113,6 +148,12 @@ const getQuestionPlayersStats = async (req, res) => {
     res.json({stats:playerStats,correct,incorrect,total,correctPercentage});
 }
 
+    /**
+     * Devuelve las estad sticas de los jugadores de una sesi n.
+     * @param {Object} req - El objeto de solicitud de Express.
+     * @param {Object} res - El objeto de respuesta de Express.
+     * @returns {Promise<void>}
+     */
 const getSessionPlayerStats = async (req, res) => {
     const sessionId = req.params.id;
     const gameSession = await gameSessionModel.findById(sessionId).populate("players").populate("triviaId");
@@ -136,6 +177,18 @@ const getSessionPlayerStats = async (req, res) => {
     const correctPercentage = (correct / total) * 100;
     res.json({players,totalQuestions,correct,incorrect,total,correctPercentage});
 }
+/**
+ * Processes a player's answer for a question in a game session.
+ *
+ * This function retrieves the current game session and checks if the player's
+ * answer is correct. It records the answer along with the time delay and updates
+ * the player's data. Returns an error if the player is not found or if the question
+ * has already been answered by the player.
+ *
+ * @param {Object} req - The request object, containing username, answerId, questionId in the body.
+ * @param {Object} res - The response object used to send back the result.
+ */
+
 const answerQuestion = async (req, res) => {
     const { username, answerId, questionId } = req.body;
     const gameSessionId = req.params.id;

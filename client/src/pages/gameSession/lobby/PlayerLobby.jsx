@@ -5,6 +5,7 @@ import PlayerQuestion from "../question/PlayerQuestion";
 import Timer from "../../../components/timer/Timer";
 import { io } from "socket.io-client";
 import { getUsername } from "../../../utils/localStorage";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 const UserLobby = () => {
     const gameSession = useLoaderData();
     const [question, setQuestion] = useState(null);
@@ -12,7 +13,7 @@ const UserLobby = () => {
     const [showingStats, setShowingStats] = useState(false);
     useEffect(() => {
         // TODO: aquí añadiremos conexión por socket y listeners
-        const newSocket = io("http://localhost:3003");
+        const newSocket = io(BACKEND_URL);
         const username = localStorage.getItem("username");
         newSocket.emit("join", { username, gameSessionId: gameSession._id });
         newSocket.on("gameSessionStarted", (newGameSession) => {
